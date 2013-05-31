@@ -8,18 +8,12 @@
 </head>
 <body>
 
-<form id=add-entry action=# class=when-list__entry>
-  <label class=action-title>WHEN <input class="ui-input action-name" name=when placeholder="doing this" required></label>
-  <ol class=actions>
-    <li class=action><input name=actions[] class="ui-input" placeholder="make sure to do that" required>
-  </ol>
-  <button class=ui-button id=save type=submit>+</button>
-</form>
 
+<div id=add-entry></div>
 <div class=when-list></div>
 
 <script type=text/html id=template-entry>
-  <article class=when-list__entry>
+  <article class="when-list__entry editable" data-id={{when}}>
     <h3 class=action-title>WHEN <span class=action-name>{{when}}</span></h3>
     <ol class=actions>
     {{#each actions}}
@@ -27,6 +21,26 @@
     {{/each}}
     </ol>
   </article>
+</script>
+
+<script type=text/html id=template-add-entry>
+<form action=# class=when-list__entry>
+  <label class=action-title>WHEN <input class="ui-input action-name" value="{{when}}" name=when placeholder="doing this" required></label>
+  <ol class=actions>
+    {{#if actions}} {{#each actions}}
+    <li class=action><input name=actions[] class="ui-input" placeholder="make sure to do that" required value="{{.}}">
+    {{/each}} {{else}}
+    <li class=action><input name=actions[] class="ui-input" placeholder="make sure to do that" required>
+    {{/if}}
+  </ol>
+  {{#if ts}}
+  <button class=ui-button id=save type=submit>update</button>
+  <a class=delete>x</a>
+  <input type=hidden name=ts value={{ts}}>
+  {{else}}
+  <button class=ui-button id=save type=submit>save</button>
+  {{/if}}
+</form>
 </script>
 
 <script src=public/js/handlebars.js></script>
