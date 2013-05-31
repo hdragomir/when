@@ -8,13 +8,21 @@
 </head>
 <body>
 
+<form id=add-entry action=# class=when-list__entry>
+  <label class=action-title>WHEN <input class="ui-input action-name" name=when placeholder="doing this" required></label>
+  <ol class=actions>
+    <li class=action><input name=actions[] class="ui-input" placeholder="make sure to do that" required>
+  </ol>
+  <button class=ui-button id=save type=submit>+</button>
+</form>
+
 <div class=when-list></div>
 
 <script type=text/html id=template-entry>
   <article class=when-list__entry>
     <h3 class=action-title>WHEN <span class=action-name>{{when}}</span></h3>
     <ol class=actions>
-    {{#each data/actions}}
+    {{#each actions}}
       <li class=action>{{.}}
     {{/each}}
     </ol>

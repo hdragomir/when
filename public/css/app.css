@@ -1,4 +1,4 @@
-html, body {
+html {
   font: 1em/1.4 "Courier New", Courier, monospace;
   color: #333;
 }
@@ -8,15 +8,17 @@ html, body {
 
 .when-list__entry {
   counter-reset: action;
+  margin-bottom: 2em;
 }
 
-.when-list .action-title {
+.when-list__entry .action-title {
   font-family: "Helvetica Neue", "Helvetica", "Segoe UI", Arial, sans-serif;
   font-size: 0.7em;
   color: #aaa;
   font-weight: normal;
+  margin-bottom: 0.2em;
 }
-.when-list .action-name {
+.when-list__entry .action-name {
   font-weight: bold;
   color: #333;
   display: block;
@@ -24,16 +26,22 @@ html, body {
   margin-top: -0.3em;
 }
 
-.when-list .actions {
+.when-list__entry .actions {
   margin-top: 0; padding-left: 1em;
   list-style-type: none;
 }
-.when-list .action {
+.when-list__entry .action {
   counter-increment: action;
 }
 
-.when-list .action:before {
+.when-list__entry .action:before {
   color: #aaa;
   content: counter(action);
   margin-right: 1em;
+  font-size: 0.7em;
+}
+
+.when-list__entry .ui-input {
+  border: 1px #eee solid;
+  border-width: 0 0 1px 0;
 }
