@@ -13,7 +13,7 @@
   WHEN.prototype.load = function () {
     var d = localStorage.when;
     if (!d) {
-      d = "{}";
+      d = "[]";
     }
     var when, data = JSON.parse(d);
     for (when in data) { if (data.hasOwnProperty(when)) {
@@ -150,6 +150,7 @@
         var whenNode = WHEN.Helper.getParentWhenNode(e.srcElement);
         if (whenNode) {
           var id = whenNode.dataset.id;
+          console.log(id);
           whenNode.innerHTML = w.templates.form(w.get(id));
           whenNode.querySelector('[name=when]').focus();
           whenNode.addEventListener('keydown', WHEN.Helper.formKeyHandler, false);
@@ -180,5 +181,6 @@
       }
     }, false);
     form.innerHTML = w.templates.form({});
+    window.WHE = w;
   }, false);
 }());
