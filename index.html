@@ -1,0 +1,27 @@
+<!doctype html>
+
+<html lang=en>
+<head>
+  <meta charset=utf-8>
+  <title>WHEN</title>
+  <link href=public/css/app.css rel=stylesheet>
+</head>
+<body>
+
+<div class=when-list></div>
+
+<script type=text/html id=template-entry>
+  <article class=when-list__entry>
+    <h3 class=action-title>WHEN <span class=action-name>{{when}}</span></h3>
+    <ol class=actions>
+    {{#each data/actions}}
+      <li class=action>{{.}}
+    {{/each}}
+    </ol>
+  </article>
+</script>
+
+<script src=public/js/handlebars.js></script>
+<script src=public/js/app.js></script>
+</body>
+</html>

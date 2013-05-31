@@ -1,0 +1,39 @@
+html, body {
+  font: 1em/1.4 "Courier New", Courier, monospace;
+  color: #333;
+}
+
+.when-list {
+}
+
+.when-list__entry {
+  counter-reset: action;
+}
+
+.when-list .action-title {
+  font-family: "Helvetica Neue", "Helvetica", "Segoe UI", Arial, sans-serif;
+  font-size: 0.7em;
+  color: #aaa;
+  font-weight: normal;
+}
+.when-list .action-name {
+  font-weight: bold;
+  color: #333;
+  display: block;
+  font-size: 2em;
+  margin-top: -0.3em;
+}
+
+.when-list .actions {
+  margin-top: 0; padding-left: 1em;
+  list-style-type: none;
+}
+.when-list .action {
+  counter-increment: action;
+}
+
+.when-list .action:before {
+  color: #aaa;
+  content: counter(action);
+  margin-right: 1em;
+}
