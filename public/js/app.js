@@ -141,10 +141,7 @@
     onFormSubmit: function (w, form) {
       var formAndValues = WHEN.Helper.extractFormValues(form),
         form = formAndValues.form;
-      [].forEach.call(form.querySelectorAll('.action'), function (el, i) {
-        i && el.parentNode.removeChild(el);
-      });
-      form.reset();
+      form.parentNode.innerHTML = w.templates.form({});
       w.put(formAndValues.values);
       w.paint();
       w.save();
