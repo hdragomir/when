@@ -42,14 +42,15 @@
   };
 
   WHEN.prototype.get = function (id) {
+    id = parseInt(id, 10);
     return this.data.filter(function (when) {
-      return when.when === id;
+      return when && when.ts === id;
     })[0];
   };
 
   WHEN.prototype.put = function (values) {
     for (var i = this.data.length; i -- > 0; ) {
-      if (this.data[i].when === values.when) {
+      if (this.data[i].ts === values.ts) {
         this.data[i] = values;
         return this.data;
       }
@@ -60,7 +61,7 @@
 
   WHEN.prototype.remove = function (id) {
     return this.data = this.data.filter(function (when) {
-      return when.when !== id;
+      return when.ts !== id;
     });
   };
 
@@ -70,15 +71,22 @@
 
   WHEN.Helper = {
     formKeyHandler: function (e) {
-      if (e.which === 13 && e.target.name === "actions[]") {
-        e.preventDefault();
-        e.stopPropagation();
-        var clone = e.target.parentNode.cloneNode(true),
-          input = clone.firstChild;
-        input.value = "";
-        input.removeAttribute('required');
-        e.target.parentNode.parentNode.appendChild(clone);
-        input.focus();
+      if (e.which === 13) {
+        if (e.metaKey || e.ctrlKey) {
+          var form = this.querySelector('form');
+          WHEN.Helper.onFormSubmit(this.whenRef, form);
+          return true;
+        }
+        if (e.target.name === "actions[]") {
+          e.preventDefault();
+          e.stopPropagation();
+          var clone = e.target.parentNode.cloneNode(true),
+            input = clone.firstChild;
+          input.value = "";
+          input.removeAttribute('required');
+          e.target.parentNode.parentNode.appendChild(clone);
+          input.focus();
+        }
       }
     },
     addEscHandler: function (node, fn) {
@@ -95,7 +103,7 @@
           actions: [],
           ts: Date.now()
         },
-        form = e.target,
+        form = e,
         carry = ["when", "ts"];
       [].forEach.call(form, function (input) {
         var value = input.value.trim();
@@ -118,6 +126,17 @@
         }
       } while(node);
       return node;
+    },
+    onFormSubmit: function (w, form) {
+      var formAndValues = WHEN.Helper.extractFormValues(form),
+        form = formAndValues.form;
+      [].forEach.call(form.querySelectorAll('.action'), function (el, i) {
+        i && el.parentNode.removeChild(el);
+      });
+      form.reset();
+      w.put(formAndValues.values);
+      w.paint();
+      w.save();
     }
   };
 
@@ -133,36 +152,23 @@
     form.addEventListener('submit', function (e) {
       if (!e.defaultPrevented) {
         e.preventDefault();
-        var formAndValues = WHEN.Helper.extractFormValues(e),
-          form = formAndValues.form;
-        [].forEach.call(form.querySelectorAll('.action'), function (el, i) {
-          i && el.parentNode.removeChild(el);
-        });
-        form.reset();
-        w.put(formAndValues.values);
-        w.paint();
-        w.save();
+        WHEN.Helper.onFormSubmit(w, e.target);
       }
     }, false);
+    form.whenRef = w;
 
     whenList.addEventListener('click', function (e) {
       if (e.shiftKey) {
         var whenNode = WHEN.Helper.getParentWhenNode(e.srcElement);
         if (whenNode) {
           var id = whenNode.dataset.id;
-          console.log(id);
           whenNode.innerHTML = w.templates.form(w.get(id));
           whenNode.querySelector('[name=when]').focus();
           whenNode.addEventListener('keydown', WHEN.Helper.formKeyHandler, false);
           whenNode.addEventListener('submit', function (e) {
             if (!e.defaultPrevented) {
               e.preventDefault();
-              var formAndValues = WHEN.Helper.extractFormValues(e),
-                form = formAndValues.form,
-                values = formAndValues.values;
-              w.put(values);
-              whenList.innerHTML = w.render();
-              w.save();
+              WHEN.Helper.onFormSubmit(w, e.target);
             }
           }, false);
           whenNode.addEventListener('click', function (e) {
