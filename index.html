@@ -30,17 +30,19 @@
   <label class=action-title>WHEN <input class="ui-input action-name" value="{{when}}" name=when placeholder="doing this" required></label>
   <ol class=actions>
     {{#if actions}} {{#each actions}}
-    <li class=action><input name=actions[] class="ui-input" placeholder="make sure to do that" required value="{{.}}">
+    <li class=action><input name=actions[] class="ui-input" placeholder="make sure to do that" value="{{.}}">
     {{/each}} {{else}}
     <li class=action><input name=actions[] class="ui-input" placeholder="make sure to do that" required>
     {{/if}}
   </ol>
   {{#if ts}}
   <button class=ui-button id=save type=submit>update</button>
-  <a class="ui-label delete">x</a>
+  <span class="ui-label">or, <a class="cancel action">cancel</a></span>
+  <span class="ui-label">or, <a class="delete action">delete</a></span>
   <input type=hidden name=ts value={{ts}}>
   {{else}}
   <button class=ui-button id=save type=submit>save</button>
+  <span class="ui-label">or, <a class="cancel action">cancel</a></span>
   {{/if}}
 </form>
 </script>

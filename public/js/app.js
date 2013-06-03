@@ -152,6 +152,7 @@
 
     editWhenNode: function (w, whenNode) {
       if (whenNode) {
+        whenNode.classList.add('editing');
         var id = whenNode.dataset.id;
         whenNode.innerHTML = w.templates.form(w.get(id));
         whenNode.querySelector('[name=when]').focus();
@@ -184,7 +185,10 @@
         if (whenNode && confirm('really?')) {
           w.remove(whenNode.dataset.id);
           w.paint();
+          w.save();
         }
+      } else if (ev.srcElement.classList.contains('cancel')) {
+          w.paint();
       }
     }, false);
     form.addEventListener('keydown', WHEN.Helper.formKeyHandler, false);
@@ -192,6 +196,11 @@
       if (!e.defaultPrevented) {
         e.preventDefault();
         WHEN.Helper.onFormSubmit(w, e.target);
+        toggleCheckbox.checked = false;
+      }
+    }, false);
+    form.addEventListener('click', function (e) {
+      if(e.srcElement.classList.contains('cancel')) {
         toggleCheckbox.checked = false;
       }
     }, false);

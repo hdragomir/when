@@ -35,20 +35,20 @@ html, body{
   margin-top: 0; padding-left: 1em;
   list-style-type: none;
 }
-.when-list__entry .action {
+.actions .action {
   counter-increment: action;
   display: block;
 }
-.when-list__entry .action:first-child:last-child:before {
+.actions .action:first-child:last-child:before {
   opacity: 0;
 }
 
-.when-list .when-list__entry .action:first-child:last-child {
+.when-list .actions .action:first-child:last-child {
   font-size: 1.4em;
   font-weight: bold;
 }
 
-.when-list__entry .action:before {
+.actions .action:before {
   color: #aaa;
   content: counter(action);
   margin-right: 1em;
@@ -86,14 +86,25 @@ html, body{
 
 
 .ui-button,
-.show-next-toggle:after {
-  padding: 1em 2em;
+.show-next-toggle:after,
+.ui-label {
+  padding: 0.5em 1em;
   border: 0;
   color: #fff;
   background-color: #888;
   cursor: pointer;
   min-width: 8em;
   text-align: center;
+  font-size: 1em;
+  line-height: 2;
+}
+
+.ui-label {
+  display: inline-block;
+  padding: 0.5em 0;
+  min-width: 0;
+  background: transparent;
+  color: #888;
 }
 
 .ui-button:active,
@@ -126,34 +137,24 @@ html, body{
   cursor: pointer;
 }
 
-.ui-label {
-  background-color: #888;
-  display: inline-block;
-  padding: 0.1em 0.5em 0.3em;
-  color: white;
-  text-align: center;
-  cursor: pointer;
-}
-
-
 .delete {
-  width: 2em;
-  height: 2em;
-  padding: 0;
-  line-height: 2em;
   color: #a00001;
-  background-color: rgba( 255, 0,0, 0.1);
-  border-radius: 50%;
-}
-
-.when-list__entry.editable .delete {
-  opacity: 0.4;
-  float: right;
-  transition: opacity 0.3s;
 }
 
 .when-list__entry.editable .delete:hover {
   opacity: 1;
 }
 
+.ui-label .action {
+}
+.ui-label .action:hover {
+  color: black;
+}
 
+.when-list .editing {
+  opacity: 1;
+}
+
+.when-list .editing ~ .editable {
+  opacity: 0.4;
+}
