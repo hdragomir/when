@@ -49,6 +49,7 @@
   };
 
   WHEN.prototype.put = function (values) {
+    values.ts = parseInt(values.ts);
     for (var i = this.data.length; i -- > 0; ) {
       if (this.data[i].ts === values.ts) {
         this.data[i] = values;
@@ -60,6 +61,7 @@
   };
 
   WHEN.prototype.remove = function (id) {
+    id = parseInt(id, 10);
     return this.data = this.data.filter(function (when) {
       return when.ts !== id;
     });
@@ -72,11 +74,6 @@
   WHEN.Helper = {
     formKeyHandler: function (e) {
       if (e.which === 13) {
-        if (e.metaKey || e.ctrlKey) {
-          var form = this.querySelector('form');
-          WHEN.Helper.onFormSubmit(this.whenRef, form);
-          return true;
-        }
         if (e.target.name === "actions[]") {
           e.preventDefault();
           e.stopPropagation();
@@ -144,7 +141,8 @@
   document.addEventListener('DOMContentLoaded', function (e) {
     var w,
       form = document.getElementById("add-entry"),
-      whenList = document.querySelector('.when-list');
+      whenList = document.querySelector('.when-list'),
+      toggleCheckbox = document.getElementById('add-entry-visiblity');
     w = new WHEN(whenList);
     w.load();
     w.paint();
@@ -153,9 +151,17 @@
       if (!e.defaultPrevented) {
         e.preventDefault();
         WHEN.Helper.onFormSubmit(w, e.target);
+        toggleCheckbox.checked = false;
       }
     }, false);
     form.whenRef = w;
+    WHEN.Helper.addEscHandler(form, function (e) {
+      toggleCheckbox.checked = false;
+    });
+
+    toggleCheckbox.addEventListener('click', function (e) {
+      form.querySelector('[name=when]').focus();
+    }, false);
 
     whenList.addEventListener('click', function (e) {
       if (e.shiftKey) {
@@ -187,6 +193,8 @@
       }
     }, false);
     form.innerHTML = w.templates.form({});
-    window.WHE = w;
+    if (!w.data.length) {
+      toggleCheckbox.checked = true;
+    }
   }, false);
 }());

@@ -8,9 +8,11 @@
 </head>
 <body>
 
-
-<div id=add-entry></div>
-<div class=when-list></div>
+<div class="container">
+  <input type="checkbox" id=add-entry-visiblity class="show-next-toggle" title="add new">
+  <div id=add-entry class="add-entry-form"></div>
+  <div class=when-list></div>
+</div>
 
 <script type=text/html id=template-entry>
   <article class="when-list__entry editable" data-id="{{ts}}">
@@ -35,7 +37,7 @@
   </ol>
   {{#if ts}}
   <button class=ui-button id=save type=submit>update</button>
-  <a class=delete>x</a>
+  <a class="ui-label delete">x</a>
   <input type=hidden name=ts value={{ts}}>
   {{else}}
   <button class=ui-button id=save type=submit>save</button>

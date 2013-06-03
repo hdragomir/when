@@ -1,9 +1,15 @@
 html {
-  font: 1em/1.4 "Courier New", Courier, monospace;
+  font: 1em/1.4 "Helvetica Neue", "Helvetica", "Segoe UI", Arial, sans-serif;
   color: #333;
+  border-top: 3px #888 solid;
+}
+
+html, body{
+  padding: 0; margin: 0;
 }
 
 .when-list {
+  margin-top: 3em;
 }
 
 .when-list__entry {
@@ -12,7 +18,6 @@ html {
 }
 
 .when-list__entry .action-title {
-  font-family: "Helvetica Neue", "Helvetica", "Segoe UI", Arial, sans-serif;
   font-size: 0.7em;
   color: #aaa;
   font-weight: normal;
@@ -32,6 +37,10 @@ html {
 }
 .when-list__entry .action {
   counter-increment: action;
+  display: block;
+}
+.when-list__entry .action:first-child:last-child:before {
+  opacity: 0;
 }
 
 .when-list__entry .action:before {
@@ -39,9 +48,107 @@ html {
   content: counter(action);
   margin-right: 1em;
   font-size: 0.7em;
+  opacity: 1;
+  transition: opacity 0.5s;
 }
 
 .when-list__entry .ui-input {
   border: 1px #eee solid;
   border-width: 0 0 1px 0;
+  min-width: 30rem;
 }
+
+.when-list__entry .action .ui-input {
+  font-size: 1.1em;
+}
+
+.ui-input.action-name {
+  width: 32.25rem;
+}
+
+
+.container {
+  max-width: 34em;
+  margin: 0 auto 4em;
+  position: relative;
+}
+
+
+.add-entry-form {
+  margin-bottom: 5em;
+  margin-top: 0;
+}
+
+
+.ui-button,
+.show-next-toggle:after {
+  padding: 1em 2em;
+  border: 0;
+  color: #fff;
+  background-color: #888;
+  cursor: pointer;
+  min-width: 8em;
+  text-align: center;
+}
+
+.ui-button:active,
+.show-next-toggle:active:after {
+  box-shadow: inset 0 -0.1em 1em rgba(0,0,1, 0.5);
+}
+
+.show-next-toggle:after {
+  display: inline-block;
+  content: attr(title);
+  float: right;
+}
+
+.show-next-toggle:checked {
+  display: none;
+}
+
+.show-next-toggle + * {
+  display: none;
+}
+
+.show-next-toggle:checked + * {
+  display: inherit;
+}
+
+.show-next-toggle{
+  position: absolute;
+  right: 0;
+  top: -3rem;
+  cursor: pointer;
+}
+
+.ui-label {
+  background-color: #888;
+  display: inline-block;
+  padding: 0.1em 0.5em 0.3em;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+}
+
+
+.delete {
+  width: 2em;
+  height: 2em;
+  padding: 0;
+  line-height: 2em;
+  color: #a00001;
+  background-color: rgba( 255, 0,0, 0.1);
+  border-radius: 50%;
+}
+
+.when-list__entry.editable .delete {
+  opacity: 0.4;
+  float: right;
+  transition: opacity 0.3s;
+}
+
+.when-list__entry.editable .delete:hover {
+  opacity: 1;
+}
+
+
