@@ -69,6 +69,7 @@
 
   WHEN.prototype.paint = function () {
     this.node.innerHTML = this.render();
+    this.node.classList.remove('editing');
   };
 
   WHEN.Helper = {
@@ -150,6 +151,7 @@
     editWhenNode: function (w, whenNode) {
       if (whenNode) {
         whenNode.classList.add('editing');
+        whenNode.parentNode.classList.add('editing');
         var id = whenNode.dataset.id;
         whenNode.innerHTML = w.templates.form(w.get(id));
         whenNode.querySelector('[name=when]').focus();

@@ -151,10 +151,11 @@ html, body{
   color: black;
 }
 
-.when-list .editing {
+.editing .editable {
+  opacity: 0.4;
+}
+
+.editing .editing {
   opacity: 1;
 }
 
-.when-list .editing ~ .editable {
-  opacity: 0.4;
-}
