@@ -72,20 +72,31 @@
   };
 
   WHEN.Helper = {
+
     formKeyHandler: function (e) {
-      if (e.which === 13) {
-        if (e.target.name === "actions[]") {
+      if (e.target.name === "actions[]") {
+        if (e.which === 13) {
           e.preventDefault();
           e.stopPropagation();
-          var clone = e.target.parentNode.cloneNode(true),
-            input = clone.firstChild;
-          input.value = "";
-          input.removeAttribute('required');
-          e.target.parentNode.parentNode.appendChild(clone);
-          input.focus();
+          WHEN.Helper.addActionsInput(e.target).focus();
+        } else {
+          if (! e.target.dataset.cloned && e.which > 40) {
+            WHEN.Helper.addActionsInput(e.target);
+          }
         }
       }
     },
+
+    addActionsInput: function (targetInput) {
+      var clone = targetInput.parentNode.cloneNode(true),
+        input = clone.firstChild;
+      targetInput.dataset.cloned = true;
+      input.value = "";
+      input.removeAttribute('required');
+      targetInput.parentNode.parentNode.appendChild(clone);
+      return input;
+    },
+
     addEscHandler: function (node, fn) {
       node.addEventListener('keyup', function (e) {
         if (e.which === 27) {
@@ -94,6 +105,7 @@
       }, false);
       return node;
     },
+
     extractFormValues: function (e) {
       var values = {
           when: null,
@@ -114,6 +126,7 @@
       });
       return {values: values, form: form};
     },
+
     getParentWhenNode: function (node) {
       do {
         if (node.classList.contains('editable')) {
@@ -124,6 +137,7 @@
       } while(node);
       return node;
     },
+
     onFormSubmit: function (w, form) {
       var formAndValues = WHEN.Helper.extractFormValues(form),
         form = formAndValues.form;
@@ -134,6 +148,21 @@
       w.put(formAndValues.values);
       w.paint();
       w.save();
+    },
+
+    editWhenNode: function (w, whenNode) {
+      if (whenNode) {
+        var id = whenNode.dataset.id;
+        whenNode.innerHTML = w.templates.form(w.get(id));
+        whenNode.querySelector('[name=when]').focus();
+        whenNode.addEventListener('keydown', WHEN.Helper.formKeyHandler, false);
+        whenNode.addEventListener('submit', function (e) {
+          if (!e.defaultPrevented) {
+            e.preventDefault();
+            WHEN.Helper.onFormSubmit(w, e.target);
+          }
+        }, false);
+      }
     }
   };
 
@@ -146,6 +175,18 @@
     w = new WHEN(whenList);
     w.load();
     w.paint();
+    WHEN.Helper.addEscHandler(whenList, function (e) {
+      w.paint();
+    });
+    whenList.addEventListener('click', function (ev) {
+      if (ev.srcElement.classList.contains('delete')) {
+        var whenNode = WHEN.Helper.getParentWhenNode(ev.srcElement);
+        if (whenNode && confirm('really?')) {
+          w.remove(whenNode.dataset.id);
+          w.paint();
+        }
+      }
+    }, false);
     form.addEventListener('keydown', WHEN.Helper.formKeyHandler, false);
     form.addEventListener('submit', function (e) {
       if (!e.defaultPrevented) {
@@ -164,32 +205,8 @@
     }, false);
 
     whenList.addEventListener('click', function (e) {
-      if (e.shiftKey) {
-        var whenNode = WHEN.Helper.getParentWhenNode(e.srcElement);
-        if (whenNode) {
-          var id = whenNode.dataset.id;
-          whenNode.innerHTML = w.templates.form(w.get(id));
-          whenNode.querySelector('[name=when]').focus();
-          whenNode.addEventListener('keydown', WHEN.Helper.formKeyHandler, false);
-          whenNode.addEventListener('submit', function (e) {
-            if (!e.defaultPrevented) {
-              e.preventDefault();
-              WHEN.Helper.onFormSubmit(w, e.target);
-            }
-          }, false);
-          whenNode.addEventListener('click', function (e) {
-            if (e.srcElement.classList.contains('delete')) {
-              if (confirm("really?")) {
-                w.remove(id);
-                w.paint();
-                w.save();
-              }
-            }
-          }, false);
-          WHEN.Helper.addEscHandler(whenNode, function (e) {
-            w.paint();
-          });
-        }
+      if (e.metaKey || e.ctrlKey) {
+        WHEN.Helper.editWhenNode(w, WHEN.Helper.getParentWhenNode(e.srcElement));
       }
     }, false);
     form.innerHTML = w.templates.form({});

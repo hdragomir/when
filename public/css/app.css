@@ -43,6 +43,11 @@ html, body{
   opacity: 0;
 }
 
+.when-list .when-list__entry .action:first-child:last-child {
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
 .when-list__entry .action:before {
   color: #aaa;
   content: counter(action);
