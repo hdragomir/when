@@ -69,6 +69,17 @@ html, body{
   font-size: 1.1em;
 }
 
+.when-list__entry .controls {
+  text-align: right;
+  float: right;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.when-list__entry:hover .controls {
+  opacity: 1;
+}
+
 .ui-input.action-name {
   width: 32.25rem;
 }

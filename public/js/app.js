@@ -179,15 +179,18 @@
       w.paint();
     });
     whenList.addEventListener('click', function (ev) {
-      if (ev.srcElement.classList.contains('delete')) {
+      var classList = ev.srcElement.classList;
+      if (classList.contains('delete')) {
         var whenNode = WHEN.Helper.getParentWhenNode(ev.srcElement);
         if (whenNode && confirm('really?')) {
           w.remove(whenNode.dataset.id);
           w.paint();
           w.save();
         }
-      } else if (ev.srcElement.classList.contains('cancel')) {
+      } else if (classList.contains('cancel')) {
           w.paint();
+      } else if (classList.contains('edit')) {
+        WHEN.Helper.editWhenNode(w, WHEN.Helper.getParentWhenNode(ev.srcElement));
       }
     }, false);
     form.addEventListener('keydown', WHEN.Helper.formKeyHandler, false);
