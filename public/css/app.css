@@ -62,11 +62,17 @@ html, body{
 .when-list__entry .ui-input {
   border: 1px #eee solid;
   border-width: 0 0 1px 0;
-  min-width: 30rem;
+  padding-left: 0;
+  border-radius: 0;
+  min-width: 15rem;
 }
 
 .when-list__entry .action .ui-input {
   font-size: 1.1em;
+}
+
+.ui-input.action-name {
+  width: 17rem;
 }
 
 .when-list__entry .controls {
@@ -80,23 +86,17 @@ html, body{
   opacity: 1;
 }
 
-.ui-input.action-name {
-  width: 32.25rem;
-}
-
-
 .container {
   max-width: 34em;
+  width: 100%;
   margin: 0 auto 4em;
   position: relative;
 }
-
 
 .add-entry-form {
   margin-bottom: 5em;
   margin-top: 0;
 }
-
 
 .ui-button,
 .show-next-toggle:after,
@@ -125,6 +125,9 @@ html, body{
   box-shadow: inset 0 -0.1em 1em rgba(0,0,1, 0.5);
 }
 
+.show-next-toggle {
+  border: 0;
+}
 .show-next-toggle:after {
   display: inline-block;
   content: attr(title);
@@ -154,14 +157,8 @@ html, body{
   color: #a00001;
 }
 
-.when-list__entry.editable .delete:hover {
-  opacity: 1;
-}
 
 .ui-label .action {
-}
-.ui-label .action:hover {
-  color: black;
 }
 
 .editing .editable {
@@ -172,3 +169,20 @@ html, body{
   opacity: 1;
 }
 
+@media screen and (min-width: 30em) {
+  .when-list__entry .ui-input {
+    min-width: 30rem;
+  }
+
+  .ui-input.action-name {
+    width: 32.25rem;
+  }
+
+  .when-list__entry.editable .delete:hover {
+    opacity: 1;
+  }
+
+  .ui-label .action:hover {
+    color: black;
+  }
+}
