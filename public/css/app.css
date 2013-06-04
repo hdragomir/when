@@ -51,10 +51,12 @@ html, body{
 .actions .action:before {
   color: #aaa;
   content: counter(action);
-  margin-right: 1em;
   font-size: 0.7em;
   opacity: 1;
   transition: opacity 0.5s;
+  width: 1em;
+  padding-right: 1em;
+  text-align: right;
 }
 
 .when-list__entry .ui-input {
