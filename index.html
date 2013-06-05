@@ -13,7 +13,10 @@
   <input type="checkbox" id=add-entry-visiblity class="show-next-toggle" title="add new">
   <div id=add-entry class="add-entry-form"></div>
   <div class=when-list></div>
-  <span class="ui-button download-container"><a id=download-data class="download action">download</a></span>
+  <div class="footer">
+    <span class="ui-button"><a id=download-data class="download action">download</a></span>
+    <span class="ui-button"><label id=upload-data class="upload action">upload<input type=file class="hidden" /></label></span>
+  </div>
 </div>
 
 <script type=text/html id=template-entry>

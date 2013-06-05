@@ -10,14 +10,11 @@
     };
   }
 
-  WHEN.prototype.load = function () {
-    var d = localStorage.when;
-    if (!d) {
-      d = "[]";
-    }
-    var when, data = JSON.parse(d);
+
+  WHEN.prototype.eat = function (data) {
+    var when;
     for (when in data) { if (data.hasOwnProperty(when)) {
-      this.data.push({
+      this.put({
         when: when,
         actions: data[when].actions,
         ts: data[when].ts
@@ -29,12 +26,25 @@
     return this.data;
   };
 
-  WHEN.prototype.save = function () {
+  WHEN.prototype.load = function () {
+    var d = localStorage.when;
+    if (!d) {
+      d = "[]";
+    }
+    return this.eat(JSON.parse(d));
+  };
+
+
+  WHEN.prototype.stringify = function () {
     var save = {};
     this.data.forEach(function (when) {
       save[when.when] = when;
     });
-    localStorage.when = JSON.stringify(save);
+    return JSON.stringify(save);
+  };
+
+  WHEN.prototype.save = function () {
+    localStorage.when = this.stringify();
   };
 
   WHEN.prototype.render = function () {
@@ -49,7 +59,7 @@
   };
 
   WHEN.prototype.put = function (values) {
-    values.ts = parseInt(values.ts);
+    values.ts = parseInt(values.ts, 10);
     for (var i = this.data.length; i -- > 0; ) {
       if (this.data[i].ts === values.ts) {
         this.data[i] = values;
@@ -225,12 +235,25 @@
       toggleCheckbox.checked = true;
     }
 
-    var dl = document.getElementById('download-data');
-    dl.addEventListener('click', function (ev) {
-      var jsonData = encodeURIComponent(JSON.stringify(w.data));
+    document.getElementById('download-data').addEventListener('click', function (ev) {
+      var jsonData = encodeURIComponent(w.stringify());
       ev.target.download = "when-data-" + Date.now() + ".json";
       ev.target.href= "data:application/octet-stream;charset=utf-8," + jsonData;
       return true;
     }, true);
+    document.getElementById('upload-data').addEventListener('change', function (ev) {
+      var file = ev.target.files[0];
+      if (file.type === "application/json") {
+        var fr = new FileReader();
+        fr.addEventListener('load', function (fre) {
+          w.eat(JSON.parse(fre.target.result));
+          w.paint();
+          w.save();
+        }, false);
+        fr.readAsText(file);
+      }
+    }, false);
+    // just for easier debugging
+    window.whe = w;
   }, false);
 }());
