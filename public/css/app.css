@@ -89,7 +89,7 @@ html, body{
 .container {
   max-width: 34em;
   width: 100%;
-  margin: 0 auto 4em;
+  margin: 0 auto 6em;
   position: relative;
 }
 
@@ -101,6 +101,10 @@ html, body{
 .ui-button,
 .show-next-toggle:after,
 .ui-label {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   padding: 0.5em 1em;
   border: 0;
   color: #fff;
@@ -146,19 +150,40 @@ html, body{
   display: inherit;
 }
 
-.show-next-toggle{
+.show-next-toggle {
   position: absolute;
   right: 0;
   top: -3rem;
   cursor: pointer;
 }
 
+.download-container {
+  font-size: 1rem;
+  position: absolute;
+  bottom: -6rem;
+  -webkit-transform: scale(0.7);
+  -webkit-transform-origin: 0 100%;
+}
+.download-container .action {
+  color: white;
+  text-decoration: none;
+}
+
+.when-list:empty ~ .download-container {
+  display: none;
+}
+
+.inverted {
+  background: currentColor;
+}
+
 .delete {
   color: #a00001;
 }
 
-
 .ui-label .action {
+  text-decoration: none;
+  color: inherit;
 }
 
 .editing .editable {
@@ -186,3 +211,5 @@ html, body{
     color: black;
   }
 }
+
+

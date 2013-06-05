@@ -224,5 +224,13 @@
     if (!w.data.length) {
       toggleCheckbox.checked = true;
     }
+
+    var dl = document.getElementById('download-data');
+    dl.addEventListener('click', function (ev) {
+      var jsonData = encodeURIComponent(JSON.stringify(w.data));
+      ev.target.download = "when-data-" + Date.now() + ".json";
+      ev.target.href= "data:application/octet-stream;charset=utf-8," + jsonData;
+      return true;
+    }, true);
   }, false);
 }());
