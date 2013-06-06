@@ -31,9 +31,8 @@
         WHEN.Helper.editWhenNode(w, WHEN.Helper.getParentWhenNode(ev.srcElement));
       } else if (classList.contains('download')) {
         whenNode = WHEN.Helper.getParentWhenNode(ev.srcElement);
-        var whenData = w.get(parseInt(whenNode.dataset.id));
-        var jsonData = w.stringify([whenData]);
-        WHEN.Helper.downloadJSONWithAnchor(ev.srcElement, jsonData, whenData.when + '.json');
+        var whenData = w.get(parseInt(whenNode.dataset.id, 10));
+        WHEN.Helper.downloadJSONWithAnchor(ev.srcElement, w.stringify([whenData]), whenData.when + '.json');
       } else {
         window.open(ev.srcElement.href);
         ev.preventDefault();
