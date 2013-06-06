@@ -95,6 +95,7 @@ a:visited {
   float: right;
   opacity: 0;
   transition: opacity 0.3s;
+  font-size: 0.8em;
 }
 
 .when-list__entry:hover .controls {
@@ -183,8 +184,10 @@ a:visited {
   font-size: 1rem;
   position: absolute;
   bottom: -6rem;
-  -webkit-transform: scale(0.7);
-  -webkit-transform-origin: 0 100%;
+}
+
+.footer * {
+  font-size: 0.7rem;
 }
 
 .ui-button .action {

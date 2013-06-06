@@ -97,7 +97,7 @@
   WHEN.Helper = {
 
     formKeyHandler: function (e) {
-      if (e.target.name === "actions[]") {
+      if (e.target.name === "actions[]" && e.target.nodeName.toLowerCase() === "input") {
         if (e.which === 13) {
           e.preventDefault();
           e.stopPropagation();
