@@ -33,7 +33,7 @@
         whenNode = WHEN.Helper.getParentWhenNode(ev.srcElement);
         var whenData = w.get(parseInt(whenNode.dataset.id, 10));
         WHEN.Helper.downloadJSONWithAnchor(ev.srcElement, w.stringify([whenData]), whenData.when + '.json');
-      } else {
+      } else if (ev.srcElement.nodeName.toLowerCase() === "a") {
         window.open(ev.srcElement.href);
         ev.preventDefault();
       }
