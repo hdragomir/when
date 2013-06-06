@@ -8,6 +8,14 @@ html, body{
   padding: 0; margin: 0;
 }
 
+a:link {
+  color: #08c;
+}
+
+a:visited {
+  color: #80c;
+}
+
 .when-list {
   margin-top: 3em;
 }
