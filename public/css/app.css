@@ -86,6 +86,13 @@ html, body{
   opacity: 1;
 }
 
+.when-list__entry .controls .ui-label {
+  display: block;
+  line-height: 1.4;
+  padding: 0;
+  text-align: right;
+}
+
 .container {
   max-width: 34em;
   width: 100%;
@@ -169,7 +176,7 @@ html, body{
   text-decoration: none;
 }
 
-.when-list:empty ~ .download-container {
+.when-list:empty ~ .footer .ui-button:first-child {
   display: none;
 }
 

@@ -35,9 +35,10 @@
   };
 
 
-  WHEN.prototype.stringify = function () {
+  WHEN.prototype.stringify = function (data) {
     var save = {};
-    this.data.forEach(function (when) {
+    data = data || this.data;
+    data.forEach(function (when) {
       save[when.when] = when;
     });
     return JSON.stringify(save);
@@ -173,6 +174,13 @@
           }
         }, false);
       }
+    },
+
+    downloadJSONWithAnchor: function (anchor, data, name) {
+      var jsonData = encodeURIComponent(data);
+      anchor.download = name || "when-data-" + Date.now() + ".json";
+      anchor.href= "data:application/octet-stream;charset=utf-8," + jsonData;
+      return anchor;
     }
   };
 
@@ -189,9 +197,10 @@
       w.paint();
     });
     whenList.addEventListener('click', function (ev) {
-      var classList = ev.srcElement.classList;
+      var classList = ev.srcElement.classList,
+        whenNode;
       if (classList.contains('delete')) {
-        var whenNode = WHEN.Helper.getParentWhenNode(ev.srcElement);
+        whenNode = WHEN.Helper.getParentWhenNode(ev.srcElement);
         if (whenNode && confirm('really?')) {
           w.remove(whenNode.dataset.id);
           w.paint();
@@ -201,6 +210,11 @@
           w.paint();
       } else if (classList.contains('edit')) {
         WHEN.Helper.editWhenNode(w, WHEN.Helper.getParentWhenNode(ev.srcElement));
+      } else if (classList.contains('download')) {
+        whenNode = WHEN.Helper.getParentWhenNode(ev.srcElement);
+        var whenData = w.get(parseInt(whenNode.dataset.id));
+        var jsonData = w.stringify([whenData]);
+        WHEN.Helper.downloadJSONWithAnchor(ev.srcElement, jsonData, whenData.when + '.json');
       }
     }, false);
     form.addEventListener('keydown', WHEN.Helper.formKeyHandler, false);
@@ -236,9 +250,7 @@
     }
 
     document.getElementById('download-data').addEventListener('click', function (ev) {
-      var jsonData = encodeURIComponent(w.stringify());
-      ev.target.download = "when-data-" + Date.now() + ".json";
-      ev.target.href= "data:application/octet-stream;charset=utf-8," + jsonData;
+      WHEN.Handlebars.downloadJSONWithAnchor(ev.target, w.stringify());
       return true;
     }, true);
     document.getElementById('upload-data').addEventListener('change', function (ev) {
