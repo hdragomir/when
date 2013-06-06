@@ -71,6 +71,13 @@ html, body{
   font-size: 1.1em;
 }
 
+.when-list__entry .action code {
+  display: inline-block;
+  padding: 0.1em 0.25em 0;
+  background: rgba(0,0,0, 0.1);
+  border-radius: 0.25em;
+}
+
 .ui-input.action-name {
   width: 17rem;
 }
@@ -171,6 +178,7 @@ html, body{
   -webkit-transform: scale(0.7);
   -webkit-transform-origin: 0 100%;
 }
+
 .ui-button .action {
   color: white;
   text-decoration: none;

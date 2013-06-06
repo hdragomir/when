@@ -49,7 +49,23 @@
   };
 
   WHEN.prototype.render = function () {
-    return this.data.map(this.templates.entry).join("");
+    return [].concat(this.data).map(this.preparseEntry, this).map(this.templates.entry).join("");
+  };
+
+  WHEN.prototype.preparseEntry = function (entry) {
+    entry = WHEN.Helper.merge({}, entry);
+    entry.actions = [].concat(entry.actions);
+    entry.actions = entry.actions.map(this.preparseAction, this);
+    return entry;
+  };
+
+  WHEN.prototype.preparseAction = function (action) {
+    return action.replace(/<+/g, '&lt;').replace(/\[(.+?)\]\((.+?)\)/g, "<a href=\"$2\">$1</a>").replace(/(?:([`*_])(.+?)\1)(?=\W|$)/g, this.markdownHelper);
+  };
+
+  WHEN.prototype.markdownHelper = function (matched, token, content) {
+    var tag = {"`" : "code", "*": "b", "_": "i"}[token];
+    return "<" + tag + ">" + content + "</" + tag + ">";
   };
 
   WHEN.prototype.get = function (id) {
@@ -181,6 +197,15 @@
       anchor.download = name || "when-data-" + Date.now() + ".json";
       anchor.href= "data:application/octet-stream;charset=utf-8," + jsonData;
       return anchor;
+    },
+
+    merge: function (into) {
+      for (var prop, i = 1, l = arguments.length; i < l; i++) {
+        for (prop in arguments[i]) if (arguments[i].hasOwnProperty(prop)) {
+          into[prop] = arguments[i][prop];
+        }
+      }
+      return into;
     }
   };
 
